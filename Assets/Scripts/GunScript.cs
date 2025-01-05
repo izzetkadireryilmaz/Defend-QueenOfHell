@@ -1,39 +1,96 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GunScript : MonoBehaviour
 {
-    public bool CanIShoot;
+    bool CanIShoot = true;
+    bool CanIReload = true;
+    public GameObject BulletCasing;
+    public GameObject BulletCasingPoint;
     float CShootCountdown;
-    public float ShootCountdown; 
+    public float ShootCountdown;
     public Camera MyCam;
     public AudioSource ShootSound;
+    public AudioSource MagazineSound;
     public ParticleSystem ShootEffect;
     public ParticleSystem BulletEffect;
     public ParticleSystem BloodEffect;
+    Animator animator;
+    public int Bullets;
+    public int MagazineCapacity;
+    public int rBullet;
+    public Text BulletText;
+    public Text rBulletText;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        rBulletText.text = rBullet.ToString();
+        BulletText.text = Bullets.ToString();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Mouse0) && CanIShoot && Time.time > CShootCountdown)
+        if (Input.GetKey(KeyCode.Mouse0) && CanIShoot && Time.time > CShootCountdown && Bullets > 0)
         {
             Shoot();
             CShootCountdown = Time.time + ShootCountdown;
         }
+        if (Input.GetKey(KeyCode.R) && CanIReload == true && MagazineCapacity != Bullets && rBullet > 0)
+        {
+            StartCoroutine(ReloadSystem());
+            CanIShoot = false;
+            CanIReload = false;
+            animator.Play("MagazineAnim");
+        }
+    }
+
+    IEnumerator ReloadSystem()
+    {
+        yield return new WaitForSeconds(2.1f);
+        if (rBullet >= MagazineCapacity - Bullets)
+        {
+            rBullet -= MagazineCapacity - Bullets;
+            Bullets = MagazineCapacity;
+            rBulletText.text = rBullet.ToString();
+            BulletText.text = Bullets.ToString();
+        }
+        else if (rBullet < MagazineCapacity - Bullets)
+        {
+            Bullets += rBullet;
+            rBullet = 0;
+            rBulletText.text = rBullet.ToString();
+            BulletText.text = Bullets.ToString();
+        }
+    }
+
+    void Magazine()
+    {
+        MagazineSound.Play();
+    }
+    void CanI()
+    {
+        CanIShoot = true;
+        CanIReload = true;
     }
 
     void Shoot()
     {
+        GameObject BulletClone = Instantiate(BulletCasing, BulletCasingPoint.transform.position, BulletCasingPoint.transform.rotation);
+        Rigidbody rb = BulletClone.GetComponent<Rigidbody>();
+        rb.AddRelativeForce(new Vector3 (-10f, 1, 0) * 30);
         RaycastHit hit;
 
         ShootSound.Play();
         ShootEffect.Play();
+        animator.Play("RifleAnim");
+        Bullets--;
+        BulletText.text = Bullets.ToString();
 
         if (Physics.Raycast(MyCam.transform.position, MyCam.transform.forward, out hit))
         {
@@ -48,6 +105,6 @@ public class GunScript : MonoBehaviour
             }
         }
 
-        
+
     }
 }
