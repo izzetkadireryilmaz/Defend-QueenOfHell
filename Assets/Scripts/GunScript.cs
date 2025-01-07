@@ -112,7 +112,8 @@ public class GunScript : MonoBehaviour
             if (hit.transform.gameObject.CompareTag("AmmoBox"))
             {
                 SaveBullets(hit.transform.gameObject.GetComponent<AmmoBoxScript>().select_gun, hit.transform.gameObject.GetComponent<AmmoBoxScript>().select_bullets);
-                Destroy(hit.transform.gameObject);
+                AmmoBoxSpawnScript.BoxisThere = false;
+                Destroy(hit.transform.parent.gameObject);
             }
 
         }
