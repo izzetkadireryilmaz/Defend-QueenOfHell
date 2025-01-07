@@ -7,22 +7,15 @@ public class GunScript : MonoBehaviour
 {
     bool CanIShoot = true;
     bool CanIReload = true;
-    public GameObject BulletCasing;
-    public GameObject BulletCasingPoint;
-    float CShootCountdown;
-    public float ShootCountdown;
-    public Camera MyCam;
-    public AudioSource ShootSound;
-    public AudioSource MagazineSound;
-    public ParticleSystem ShootEffect;
-    public ParticleSystem BulletEffect;
-    public ParticleSystem BloodEffect;
     Animator animator;
-    public int Bullets;
-    public int MagazineCapacity;
-    public int rBullet;
-    public Text BulletText;
-    public Text rBulletText;
+    float CShootCountdown;
+    public Camera MyCam;
+    public GameObject BulletCasing, BulletCasingPoint;
+    public float ShootCountdown;
+    public AudioSource ShootSound, MagazineSound;
+    public ParticleSystem ShootEffect, BulletEffect, BloodEffect;
+    public int Bullets, MagazineCapacity, rBullet;
+    public Text BulletText, rBulletText;
 
 
     // Start is called before the first frame update
@@ -48,6 +41,10 @@ public class GunScript : MonoBehaviour
             CanIReload = false;
             animator.Play("MagazineAnim");
         }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            TakeBullets();
+        }
     }
 
     IEnumerator ReloadSystem()
@@ -68,7 +65,6 @@ public class GunScript : MonoBehaviour
             BulletText.text = Bullets.ToString();
         }
     }
-
     void Magazine()
     {
         MagazineSound.Play();
@@ -78,7 +74,6 @@ public class GunScript : MonoBehaviour
         CanIShoot = true;
         CanIReload = true;
     }
-
     void Shoot()
     {
         GameObject BulletClone = Instantiate(BulletCasing, BulletCasingPoint.transform.position, BulletCasingPoint.transform.rotation);
@@ -107,4 +102,35 @@ public class GunScript : MonoBehaviour
 
 
     }
+    void TakeBullets()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(MyCam.transform.position, MyCam.transform.forward, out hit, 4))
+        {
+
+            if (hit.transform.gameObject.CompareTag("AmmoBox"))
+            {
+                SaveBullets(hit.transform.gameObject.GetComponent<AmmoBoxScript>().select_gun, hit.transform.gameObject.GetComponent<AmmoBoxScript>().select_bullets);
+                Destroy(hit.transform.gameObject);
+            }
+
+        }
+    }
+    void SaveBullets(string gunType, int bulletAmount)
+    {
+        switch (gunType)
+        {
+            case "Rifle":
+                rBullet += bulletAmount;
+                rBulletText.text = rBullet.ToString();
+                break;
+
+            case "Deagle":
+
+                break;
+        }
+
+    }
+
 }
