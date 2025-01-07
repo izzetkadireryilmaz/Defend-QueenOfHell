@@ -10,6 +10,11 @@ public class PlayerMovement : MonoBehaviour
     public float gravity;
     private Vector3 velocity;
 
+    public GameObject RýfleHand;
+    public GameObject RýfleHandP;
+    public GameObject HandgunHand;
+    public GameObject HandgunHandP;
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -44,6 +49,22 @@ public class PlayerMovement : MonoBehaviour
         }
 
         controller.Move(velocity * Time.deltaTime); // Yer çekimi uygulanmasýný saðlýyoruz.
+
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            RýfleHand.SetActive(true);
+            HandgunHand.SetActive(false);
+            RýfleHandP.SetActive(true);
+            HandgunHandP.SetActive(false);
+        } 
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            RýfleHand.SetActive(false);
+            HandgunHand.SetActive(true);
+            RýfleHandP.SetActive(false);
+            HandgunHandP.SetActive(true);
+        }
     }
 
 }

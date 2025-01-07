@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GunScript : MonoBehaviour
+public class HandgunScript : MonoBehaviour
 {
     bool CanIShoot = true;
     bool CanIReload = true;
@@ -14,26 +14,26 @@ public class GunScript : MonoBehaviour
     public float ShootCountdown;
     public AudioSource ShootSound, MagazineSound;
     public ParticleSystem ShootEffect, BulletEffect, BloodEffect;
-    public int Bullets, MagazineCapacity, rBullet;
-    public Text BulletText, rBulletText;
-
+    public int Handgun_Bullets, Handgun_MagazineCapacity, Handgun_rBullet;
+    public Text Handgun_BulletText, Handgun_rBulletText;
 
     // Start is called before the first frame update
     void Start()
     {
-        rBulletText.text = rBullet.ToString();
-        BulletText.text = Bullets.ToString();
+        Handgun_rBulletText.text = Handgun_rBullet.ToString();
+        Handgun_BulletText.text = Handgun_Bullets.ToString();
         animator = GetComponent<Animator>();
+        
     }
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Mouse0) && CanIShoot && Time.time > CShootCountdown && Bullets > 0)
+        if (Input.GetKey(KeyCode.Mouse0) && CanIShoot && Time.time > CShootCountdown && Handgun_Bullets > 0)
         {
             Shoot();
             CShootCountdown = Time.time + ShootCountdown;
         }
-        if (Input.GetKey(KeyCode.R) && CanIReload == true && MagazineCapacity != Bullets && rBullet > 0)
+        if (Input.GetKey(KeyCode.R) && CanIReload == true && Handgun_MagazineCapacity != Handgun_Bullets && Handgun_rBullet > 0)
         {
             StartCoroutine(ReloadSystem());
             CanIShoot = false;
@@ -49,19 +49,19 @@ public class GunScript : MonoBehaviour
     IEnumerator ReloadSystem()
     {
         yield return new WaitForSeconds(2.1f);
-        if (rBullet >= MagazineCapacity - Bullets)
+        if (Handgun_rBullet >= Handgun_MagazineCapacity - Handgun_Bullets)
         {
-            rBullet -= MagazineCapacity - Bullets;
-            Bullets = MagazineCapacity;
-            rBulletText.text = rBullet.ToString();
-            BulletText.text = Bullets.ToString();
+            Handgun_rBullet -= Handgun_MagazineCapacity - Handgun_Bullets;
+            Handgun_Bullets = Handgun_MagazineCapacity;
+            Handgun_rBulletText.text = Handgun_rBullet.ToString();
+            Handgun_BulletText.text = Handgun_Bullets.ToString();
         }
-        else if (rBullet < MagazineCapacity - Bullets)
+        else if (Handgun_rBullet < Handgun_MagazineCapacity - Handgun_Bullets)
         {
-            Bullets += rBullet;
-            rBullet = 0;
-            rBulletText.text = rBullet.ToString();
-            BulletText.text = Bullets.ToString();
+            Handgun_Bullets += Handgun_rBullet;
+            Handgun_rBullet = 0;
+            Handgun_rBulletText.text = Handgun_rBullet.ToString();
+            Handgun_BulletText.text = Handgun_Bullets.ToString();
         }
     }
     void Magazine()
@@ -83,8 +83,8 @@ public class GunScript : MonoBehaviour
         ShootSound.Play();
         ShootEffect.Play();
         animator.Play("RifleAnim");
-        Bullets--;
-        BulletText.text = Bullets.ToString();
+        Handgun_Bullets--;
+        Handgun_BulletText.text = Handgun_Bullets.ToString();
 
         if (Physics.Raycast(MyCam.transform.position, MyCam.transform.forward, out hit))
         {
@@ -122,8 +122,8 @@ public class GunScript : MonoBehaviour
         switch (gunType)
         {
             case "Rifle":
-                rBullet += bulletAmount;
-                rBulletText.text = rBullet.ToString();
+                Handgun_rBullet += bulletAmount;
+                Handgun_rBulletText.text = Handgun_rBullet.ToString();
                 break;
 
             case "Deagle":
