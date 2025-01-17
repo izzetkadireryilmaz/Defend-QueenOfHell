@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class AmmoBoxScript : MonoBehaviour
 {
-    string[] Guns = { "Rifle", "Deagle" };
+    string[] Guns = { "Rifle", "Handgun" };
     int[] Bullets = { 5, 10, 15, 20 };
     public string select_gun;
     public int select_bullets;
