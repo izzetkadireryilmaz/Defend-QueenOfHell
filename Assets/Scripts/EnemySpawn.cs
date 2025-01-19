@@ -11,20 +11,13 @@ public class EnemySpawn : MonoBehaviour
     {
         StartCoroutine(EnemySpawner());
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     IEnumerator EnemySpawner()
     {
         
 
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(1, 1.5f));
+            yield return new WaitForSeconds(Random.Range(2,4f));
             int enemy = Random.Range(0, enemys.Length);
             int Spawner = Random.Range(0, enemySpawner.Length);
 

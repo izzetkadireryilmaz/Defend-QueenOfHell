@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,5 +29,4 @@ public class CameraController : MonoBehaviour
         // kameranýn yatay hareketi için karakterin dönmesini saðlýyoruz.
         Player.Rotate(Vector3.up * inputX);
     }
-
 }

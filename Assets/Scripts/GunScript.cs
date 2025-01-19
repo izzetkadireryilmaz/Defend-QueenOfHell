@@ -11,7 +11,7 @@ public class GunScript : MonoBehaviour
     public Camera MyCam;
     // public GameObject BulletCasing, BulletCasingPoint;
     public GameObject FPSRifle, FPSHandgun, FPSRiflePanel, FPSHandgunPanel;
-    public float ShootCountdown;
+    public float ShootCountdown, RifleDamage, HandgunDamage;
     public AudioSource ShootSound, MagazineSound;
     public ParticleSystem ShootEffect, BulletEffect, BloodEffect;
     public int Bullets, MagazineCapacity, rBullet, Handgun_Bullets, Handgun_MagazineCapacity, Handgun_rBullet;
@@ -157,6 +157,14 @@ public class GunScript : MonoBehaviour
             if (hit.transform.gameObject.CompareTag("Enemy"))
             {
                 Instantiate(BloodEffect, hit.point, Quaternion.LookRotation(hit.normal));
+                if (FPSRifle.activeSelf)
+                {
+                    hit.transform.gameObject.GetComponent<EnemyScript>().Damage(RifleDamage);
+                }
+                else if (FPSHandgun.activeSelf)
+                {
+                    hit.transform.gameObject.GetComponent<EnemyScript>().Damage(HandgunDamage);
+                }
             }
             else
             {

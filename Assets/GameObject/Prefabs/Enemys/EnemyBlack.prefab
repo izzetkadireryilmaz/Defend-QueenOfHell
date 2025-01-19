@@ -295,6 +295,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57df755b42b9a74ba0724e3c920ce1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Health: 60
+  damage: 15
 --- !u!95 &7272343717094351311
 Animator:
   serializedVersion: 5
@@ -331,7 +333,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
