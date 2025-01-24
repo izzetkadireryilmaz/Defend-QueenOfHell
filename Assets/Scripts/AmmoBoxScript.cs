@@ -24,10 +24,4 @@ public class AmmoBoxScript : MonoBehaviour
         Debug.Log(select_bullets);
 
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

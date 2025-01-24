@@ -9,6 +9,7 @@ public class HealthController : MonoBehaviour
     public Image HealthBar;
     public GameObject parents, scoreText;
     public Canvas deadCanvas, Gamecanvas;
+    public Camera MyCam;
 
     void Start()
     {
@@ -19,7 +20,10 @@ public class HealthController : MonoBehaviour
 
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            TakeHealth();
+        }
     }
 
     public void TakeDamage(float damage)
@@ -40,6 +44,22 @@ public class HealthController : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(1f);
         deadCanvas.gameObject.SetActive(true);
+    }
+
+
+    void TakeHealth()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(MyCam.transform.position, MyCam.transform.forward, out hit, 4))
+        {
+            if (hit.transform.gameObject.CompareTag("AidKit"))
+            {
+                Destroy(hit.transform.gameObject);
+                health += 30;
+                HealthBar.fillAmount = health / 100;
+            }
+        }
     }
 
 }

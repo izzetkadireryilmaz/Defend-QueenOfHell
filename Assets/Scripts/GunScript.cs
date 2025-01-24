@@ -21,10 +21,6 @@ public class GunScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rBulletText.text = rBullet.ToString();
-        BulletText.text = Bullets.ToString();
-        Handgun_rBulletText.text = Handgun_rBullet.ToString();
-        Handgun_BulletText.text = Handgun_Bullets.ToString();
         animator = GetComponent<Animator>();
         GunChange(FPSRifle, FPSRiflePanel, FPSHandgun, FPSHandgunPanel);
     }
@@ -201,7 +197,7 @@ public class GunScript : MonoBehaviour
 
             case "Handgun":
                 Handgun_rBullet += bulletAmount;
-                Handgun_rBulletText.text = rBullet.ToString();
+                Handgun_rBulletText.text = Handgun_rBullet.ToString();
                 break;
         }
 
